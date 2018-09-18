@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-signup',
@@ -16,13 +17,17 @@ export class SignupComponent implements OnInit {
   };
   public error = [];
 
-  constructor(private User: UserService) { }
+  constructor(private User: UserService, private Token: TokenService) { }
 
   onSubmit() {
     this.User.signup(this.form).subscribe(
-      data => console.log(data),
+      data => this.handleResponse(data),
       error => this.handleError(error)
     );
+  }
+
+  handleResponse(data) {
+    this.Token.handle(data.access_token);
   }
 
   handleError(error) {
