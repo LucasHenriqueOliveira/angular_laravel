@@ -37,7 +37,17 @@ export class ResponseResetComponent implements OnInit {
   }
 
   handleResponse(data) {
-    this.router.navigateByUrl('/login');
+    const _router = this.router;
+    this.Notify.confirm('Done!, Now login with new Password', {
+      buttons: [
+        {text: 'Okay',
+        action: toster => {
+           _router.navigateByUrl('/login'),
+           this.Notify.remove(toster.id);
+          }
+      },
+      ]
+    });
   }
 
   handleError(error) {
